@@ -34,7 +34,6 @@ def init():
 
 def buttons(button, x, y):
     global show_sin, show_cos, show_tan
-    print(button)
     if button == b's':
         if show_sin:
             show_sin = False
@@ -52,7 +51,7 @@ def buttons(button, x, y):
             show_tan = True
 
 
-def drawBackground(r, g, b):
+def draw_background(r, g, b):
     glColor3f(r, g, b)
     glBegin(GL_QUADS)
     glVertex2f(x1, y1)
@@ -62,7 +61,7 @@ def drawBackground(r, g, b):
     glEnd()
 
 
-def drawGrid():
+def draw_grid():
     # grid
     glLineWidth(1)
     glColor3f(0.5, 0.5, 0.5)
@@ -86,7 +85,7 @@ def drawGrid():
     glEnd()
 
 
-def drawLines():
+def draw_lines():
     global show_sin, show_cos, show_tan
     glBegin(GL_POINTS)
     # cos
@@ -112,15 +111,15 @@ def drawLines():
     glEnd()
 
 
-def drawFunc():
+def main():
     glClear(GL_COLOR_BUFFER_BIT)
     glPointSize(2.0)
     glLineWidth(2.0)
 
-    drawBackground(1.0, 1.0, 1.0)
+    draw_background(1.0, 1.0, 1.0)
 
-    drawGrid()
-    drawLines()
+    draw_grid()
+    draw_lines()
 
     glFlush()
 
@@ -131,8 +130,8 @@ if __name__ == "__main__":
     glutInitWindowSize(600, 400)
     glutCreateWindow(title)
 
-    glutDisplayFunc(drawFunc)
-    glutIdleFunc(drawFunc)
+    glutDisplayFunc(main)
+    glutIdleFunc(main)
 
     init()
     glutMainLoop()
