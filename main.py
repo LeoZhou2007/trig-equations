@@ -32,7 +32,7 @@ def init():
     glutKeyboardFunc(buttons)
 
 
-def buttons(button):
+def buttons(button, x, y):
     global show_sin, show_cos, show_tan
     if button == b's':
         if show_sin:
@@ -49,6 +49,8 @@ def buttons(button):
             show_tan = False
         else:
             show_tan = True
+
+    glutPostRedisplay()
 
 
 def draw_background(r, g, b):
