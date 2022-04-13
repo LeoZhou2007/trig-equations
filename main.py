@@ -2,6 +2,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 from numpy import *
+import sys
 import math
 import decimal
 
@@ -20,13 +21,39 @@ h_end = x2 - x2 % h_gap
 v_start = y1 - y1 % v_gap
 v_end = y2 - y2 % v_gap
 
+show_sin = True
+show_cos = True
+show_tan = True
+
 
 def init():
     glClearColor(0.0, 0.0, 0.0, 1.0)
     gluOrtho2D(x1, x2, y1, y2)
+    glutKeyboardFunc(buttons)
 
 
-def drawBackground():
+def buttons(button, x, y):
+    global show_sin, show_cos, show_tan
+    print(button)
+    if button == b's':
+        if show_sin:
+            show_sin = False
+        else:
+            show_sin = True
+    elif button == b'c':
+        if show_cos:
+            show_cos = False
+        else:
+            show_cos = True
+    elif button == b't':
+        if show_tan:
+            show_tan = False
+        else:
+            show_tan = True
+
+
+def drawBackground(r, g, b):
+    glColor3f(r, g, b)
     glBegin(GL_QUADS)
     glVertex2f(x1, y1)
     glVertex2f(x2, y1)
@@ -36,7 +63,9 @@ def drawBackground():
 
 
 def drawGrid():
+    # grid
     glLineWidth(1)
+    glColor3f(0.5, 0.5, 0.5)
     glBegin(GL_LINES)
     for x in arange(h_start, h_end, h_gap):
         glVertex2f(x, y1)
@@ -57,43 +86,47 @@ def drawGrid():
     glEnd()
 
 
+def drawLines():
+    global show_sin, show_cos, show_tan
+    glBegin(GL_POINTS)
+    # cos
+    if show_cos:
+        glColor3f(0.0, 0.0, 1.0)
+        for x in arange(0.0, 360.0, 0.01):
+            y = math.cos(math.radians(x))
+            glVertex2f(x, y)
+
+    # sin
+    if show_sin:
+        glColor3f(1.0, 0.0, 0.0)
+        for x in arange(0.0, 360.0, 0.01):
+            y = math.sin(math.radians(x))
+            glVertex2f(x, y)
+
+    # tan
+    if show_tan:
+        glColor3f(0.0, 1.0, 0.0)
+        for x in arange(0.0, 360.0, 0.01):
+            y = math.tan(math.radians(x))
+            glVertex2f(x, y)
+    glEnd()
+
+
 def drawFunc():
     glClear(GL_COLOR_BUFFER_BIT)
     glPointSize(2.0)
     glLineWidth(2.0)
 
-    glColor3f(1.0, 1.0, 1.0)
-    drawBackground()
+    drawBackground(1.0, 1.0, 1.0)
 
-    glLineWidth(1)
-    glColor3f(0.7, 0.7, 0.7)
     drawGrid()
-
-    glBegin(GL_POINTS)
-    # cos
-    glColor3f(0.0, 0.0, 1.0)
-    for x in arange(0.0, 360.0, 0.01):
-        y = math.cos(math.radians(x))
-        glVertex2f(x, y)
-
-    # sin
-    glColor3f(1.0, 0.0, 0.0)
-    for x in arange(0.0, 360.0, 0.01):
-        y = math.sin(math.radians(x))
-        glVertex2f(x, y)
-
-    # tan
-    glColor3f(0.0, 1.0, 0.0)
-    for x in arange(0.0, 360.0, 0.01):
-        y = math.tan(math.radians(x))
-        glVertex2f(x, y)
-    glEnd()
+    drawLines()
 
     glFlush()
 
 
 if __name__ == "__main__":
-    glutInit()
+    glutInit(sys.argv)
     glutInitDisplayMode(GLUT_RGBA | GLUT_SINGLE)
     glutInitWindowSize(600, 400)
     glutCreateWindow(title)
