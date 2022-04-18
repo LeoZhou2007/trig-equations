@@ -93,21 +93,21 @@ def draw_lines():
     # cos
     if show_cos:
         glColor3f(0.0, 0.0, 1.0)
-        for x in arange(0.0, 360.0, 0.01):
+        for x in arange(x1, x2, 0.01):
             y = math.cos(math.radians(x))
             glVertex2f(x, y)
 
     # sin
     if show_sin:
         glColor3f(1.0, 0.0, 0.0)
-        for x in arange(0.0, 360.0, 0.01):
+        for x in arange(x1, x2, 0.01):
             y = math.sin(math.radians(x))
             glVertex2f(x, y)
 
     # tan
     if show_tan:
         glColor3f(0.0, 1.0, 0.0)
-        for x in arange(0.0, 360.0, 0.01):
+        for x in arange(x1, x2, 0.01):
             y = math.tan(math.radians(x))
             glVertex2f(x, y)
     glEnd()
